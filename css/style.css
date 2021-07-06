@@ -50,6 +50,26 @@ body{
     margin-bottom: 90px;
 }
 
+
+a{
+    text-decoration: none;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    background-color:#875478 ;
+    border-radius: 4px;
+
+}
+
+a:hover{
+
+    color: white;
+    background-color:#254785 ;
+    border-radius: 4px;
+font-size: 120%;
+
+}
+
 header{
     text-align: center;
     background-image: linear-gradient(#875478,#254785);   

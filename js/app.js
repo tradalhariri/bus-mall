@@ -5,6 +5,9 @@ let rightImageEl = document.getElementById('right');
 let middleImageEL = document.getElementById('middle');
 let attempts = 25;
 
+let displayListButtonEl = document.getElementById('displayList');
+let mainContainerListEl = document.getElementById('mainContainerList');
+let mainContainerImagesAndDescEl = document.getElementById('mainContainerImagesAndDesc');
 
 let products  = [];
 let productsLabels = [];
@@ -95,6 +98,27 @@ leftImageEl.addEventListener('click',generateRandomImages);
 rightImageEl.addEventListener('click',generateRandomImages);
 middleImageEL.addEventListener('click',generateRandomImages);
 
+displayListButtonEl.addEventListener('click',displayReport);
+
+function displayReport(e){
+  e.preventDefault();
+  mainContainerListEl.innerHTML='';
+  mainContainerListEl.style.display = 'inline-block';
+  mainContainerImagesAndDescEl.style.display = 'inline-block';
+  mainContainerListEl.style.width='30%';
+  mainContainerImagesAndDescEl.style.width='67%';
+ 
+  for (let i = 0; i < products.length; i++) {
+    let liEl = document.createElement('li');
+    liEl.textContent = `${products[i].imageName} had ${products[i].clickedNum} votes, and was seen ${products[i].viewedNum} times.`;
+    mainContainerListEl.appendChild(liEl);
+
+  }
+
+}
+
+
+
 
 let attempt = 1;
 function generateRandomImages(e){
@@ -113,6 +137,7 @@ function generateRandomImages(e){
     }
     attempt++;
   }else{
+    displayListButtonEl.style.display = 'inline-block';
     for (let i = 0; i < products.length; i++) {
       productsViewedNum.push(products[i].viewedNum);
       productsClickedNum.push(products[i].clickedNum);
