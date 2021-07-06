@@ -9,8 +9,6 @@ let displayListButtonEl = document.getElementById('displayList');
 let mainContainerListEl = document.getElementById('mainContainerList');
 let mainContainerImagesAndDescEl = document.getElementById('mainContainerImagesAndDesc');
 
-let mainContainerListIEl = document.getElementById('mainContainerListI');
-
 let products  = [];
 let productsLabels = [];
 let productsViewedNum = [];
@@ -105,10 +103,11 @@ displayListButtonEl.addEventListener('click',displayReport);
 function displayReport(e){
   e.preventDefault();
   mainContainerListEl.innerHTML='';
-  mainContainerListEl.style.display = 'block';
-  mainContainerListIEl.style.display='inline-block';
+  mainContainerListEl.style.display = 'inline-block';
+  mainContainerListEl.style.verticalAlign='top';
   mainContainerImagesAndDescEl.style.display = 'inline-block';
-  mainContainerListIEl.style.width='30%';
+  mainContainerImagesAndDescEl.style.verticalAlign='top';
+  mainContainerListEl.style.width='30%';
   mainContainerImagesAndDescEl.style.width='60%';
   let productsLocale= JSON.parse(localStorage.getItem('products'));
   for (let i = 0; i < productsLocale.length; i++) {
