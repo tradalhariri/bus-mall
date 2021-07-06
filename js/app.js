@@ -9,6 +9,8 @@ let displayListButtonEl = document.getElementById('displayList');
 let mainContainerListEl = document.getElementById('mainContainerList');
 let mainContainerImagesAndDescEl = document.getElementById('mainContainerImagesAndDesc');
 
+let mainContainerListIEl = document.getElementById('mainContainerListI');
+
 let products  = [];
 let productsLabels = [];
 let productsViewedNum = [];
@@ -103,14 +105,15 @@ displayListButtonEl.addEventListener('click',displayReport);
 function displayReport(e){
   e.preventDefault();
   mainContainerListEl.innerHTML='';
-  mainContainerListEl.style.display = 'inline-block';
+  mainContainerListEl.style.display = 'block';
+  mainContainerListIEl.style.display='inline-block';
   mainContainerImagesAndDescEl.style.display = 'inline-block';
-  mainContainerListEl.style.width='30%';
-  mainContainerImagesAndDescEl.style.width='67%';
- 
-  for (let i = 0; i < products.length; i++) {
+  mainContainerListIEl.style.width='30%';
+  mainContainerImagesAndDescEl.style.width='60%';
+  let productsLocale= JSON.parse(localStorage.getItem('products'));
+  for (let i = 0; i < productsLocale.length; i++) {
     let liEl = document.createElement('li');
-    liEl.textContent = `${products[i].imageName} had ${products[i].clickedNum} votes, and was seen ${products[i].viewedNum} times.`;
+    liEl.textContent = `${productsLocale[i].imageName} had ${productsLocale[i].clickedNum} votes, and was seen ${productsLocale[i].viewedNum} times.`;
     mainContainerListEl.appendChild(liEl);
 
   }
@@ -122,6 +125,10 @@ function displayReport(e){
 
 let attempt = 1;
 function generateRandomImages(e){
+
+
+
+
 
   let imageClicked = e.target.id;
   if(attempt <= attempts){
@@ -137,12 +144,35 @@ function generateRandomImages(e){
     }
     attempt++;
   }else{
-    displayListButtonEl.style.display = 'inline-block';
-    for (let i = 0; i < products.length; i++) {
-      productsViewedNum.push(products[i].viewedNum);
-      productsClickedNum.push(products[i].clickedNum);
+
+
+    let productsLocal = JSON.parse(localStorage.getItem('products'));
+    if( productsLocal === null){
+
+      productsLocal = products;
+
+
+      for (let i = 0; i < productsLocal.length; i++) {
+        productsViewedNum.push(productsLocal[i].viewedNum);
+        productsClickedNum.push(productsLocal[i].clickedNum);
+
+      }
+      localStorage.setItem('products',JSON.stringify(productsLocal));
+
+    }else{
+      for (let i = 0; i < productsLocal.length; i++) {
+        productsLocal[i].viewedNum+=products[i].viewedNum;
+        productsLocal[i].clickedNum+=products[i].clickedNum;
+        productsViewedNum.push(productsLocal[i].viewedNum);
+        productsClickedNum.push(productsLocal[i].clickedNum);
+
+      }
+      localStorage.setItem('products',JSON.stringify(productsLocal));
 
     }
+    localStorage.setItem('productsViewedNum',JSON.stringify(productsViewedNum));
+    localStorage.setItem('productsClickedNum',JSON.stringify(productsClickedNum));
+    displayListButtonEl.style.display = 'inline-block';
     document.getElementById('myChart').style.display = 'block';
     renderChart();
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -152,6 +182,7 @@ function generateRandomImages(e){
     rightImageEl.removeEventListener('click',generateRandomImages);
     middleImageEL.removeEventListener('click',generateRandomImages);
   }
+
 }
 
 
@@ -164,7 +195,7 @@ function generateRandomImages(e){
 function renderChart(){
 
   let ctx = document.getElementById('myChart').getContext('2d');
-  
+
   // eslint-disable-next-line no-undef
   new Chart(ctx, {
     type: 'bar',
@@ -172,7 +203,7 @@ function renderChart(){
       labels:productsLabels,
       datasets: [{
         label: '# of Votes',
-        data: productsClickedNum,
+        data: JSON.parse(localStorage.getItem('productsClickedNum')),
         backgroundColor: [
           'rgb(255, 99, 132)',
         ],
@@ -187,7 +218,7 @@ function renderChart(){
         borderWidth: 2
       },{
         label: '# of Viewed',
-        data: productsViewedNum,
+        data: JSON.parse(localStorage.getItem('productsViewedNum')),
         backgroundColor: [
           'rgb(54, 162, 235)',
         ],
