@@ -13,6 +13,7 @@ let products  = [];
 let productsLabels = [];
 let productsViewedNum = [];
 let productsClickedNum = [];
+//define a constructor for available products
 function Product(image){
   this.imageName = image.split('.')[0];
   this.imagePath = `images/${image}`;
@@ -22,12 +23,12 @@ function Product(image){
   products.push(this);
 }
 
-
+//fill the list with available products
 for (let i = 0; i < productsNames.length; i++) {
   new Product(productsNames[i]);
 }
 
-
+//generate integer random number less than the number of available products
 function generateRandomNumber(){
   return Math.floor( Math.random()*productsNames.length);
 }
@@ -37,7 +38,7 @@ let rightIndex;
 let middleIndex;
 let randomIndexs=[];
 
-
+//generate three different random numbers 
 function createThreeRandomIndexes(){
 
   let randomIndexes = [];
@@ -50,7 +51,7 @@ function createThreeRandomIndexes(){
   }
   return randomIndexes;
 }
-
+//check if two arrays are absolutly different from each other
 function compareTwoArrays(first,second){
   let equal  = false;
   for (let i = 0; i < first.length; i++) {
@@ -63,7 +64,7 @@ function compareTwoArrays(first,second){
 }
 
 
-
+//render three images on screen
 function renderThreeRandomImages(){
   let tempIndexes = createThreeRandomIndexes();
   if(randomIndexs.length === 0){
@@ -100,6 +101,8 @@ middleImageEL.addEventListener('click',generateRandomImages);
 
 displayListButtonEl.addEventListener('click',displayReport);
 
+
+//display list of most seen products and most clicked products
 function displayReport(e){
   e.preventDefault();
   mainContainerListEl.innerHTML='';
@@ -123,6 +126,8 @@ function displayReport(e){
 
 
 let attempt = 1;
+
+//function responds to the click event on each image and regenerate three different images
 function generateRandomImages(e){
 
 
@@ -190,7 +195,7 @@ function generateRandomImages(e){
 
 
 
-
+//render chart  to display the collected data
 function renderChart(){
 
   let ctx = document.getElementById('myChart').getContext('2d');
